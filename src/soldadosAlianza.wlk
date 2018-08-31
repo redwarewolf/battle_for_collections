@@ -3,8 +3,9 @@ import soldadosHorda.*
 
 object anduin{
 	var oro=150000
+	var poder = 4500
 
-	method poder() {return 4500}
+	method poder() {return poder}
 	
 	method oro(){return oro}
 	method oro(cantidad){oro=cantidad
@@ -19,14 +20,12 @@ object anduin{
 		}
 	}
 	method pelearPorRegion(){
-		var enemigo= laAlianza.soldadoRandom()
-		if(self.leGanaA(enemigo)){
+		if(self.leGanaA(laHorda.soldadoRandom())){
 			self.conquistarRegion()
 		}
-		
 	}
 	method conquistarRegion(){
-		laHorda.ganaTerritorio(laAlianza.pierdeElTerritorio())
+		laAlianza.ganaTerritorio(laHorda.pierdeElTerritorio())
 	}
 	method leGanaA(otroPersonaje){
 		return self.poder()>=otroPersonaje.poder()
@@ -41,13 +40,9 @@ object anduin{
 	method ganarOro(cantidad){
 		self.oro(self.oro()+cantidad)
 	}
-	method pagaImpuestos(){
-		laAlianza.ganaOro(self.pagaTarifa())
-	}
-	method pagaTarifa(){
-		var cantidad= self.oro()/100*30
-		oro-=cantidad
-		return cantidad
+	method pagaImpuestos(unaFaccion){
+		unaFaccion.ganaOro(oro/2)
+		oro = oro/2
 	}
 }
 
@@ -70,14 +65,12 @@ object jainaProudmoore{
 		}
 	}
 	method pelearPorRegion(){
-		var enemigo= laAlianza.soldadoRandom()
-		if(self.leGanaA(enemigo)){
+		if(self.leGanaA(laHorda.soldadoRandom())){
 			self.conquistarRegion()
 		}
-		
 	}
 	method conquistarRegion(){
-		laHorda.ganaTerritorio(laAlianza.pierdeElTerritorio())
+		laAlianza.ganaTerritorio(laHorda.pierdeElTerritorio())
 	}
 	method leGanaA(otroPersonaje){
 		return self.poder()>=otroPersonaje.poder()
@@ -94,16 +87,10 @@ object jainaProudmoore{
 	}
 
 
-	method pagaImpuestos(){
-		laAlianza.ganaOro(self.pagaTarifa())
+	method pagaImpuestos(unaFaccion){
+		unaFaccion.ganaOro(oro/2)
+		oro = oro/2
 	}
-	method pagaTarifa(){
-		var cantidad= self.oro()/100*30
-		oro-=cantidad
-		return cantidad
-	}
-
-
 }
 
 object soldadoRazo{
@@ -126,37 +113,31 @@ object soldadoRazo{
 		}
 	}
 	method pelearPorRegion(){
-		var enemigo= laAlianza.soldadoRandom()
-		if(self.leGanaA(enemigo)){
+		if(self.leGanaA(laHorda.soldadoRandom())){
 			self.conquistarRegion()
 		}
-		
 	}
 	method conquistarRegion(){
-		laHorda.ganaTerritorio(laAlianza.pierdeElTerritorio())
+		laAlianza.ganaTerritorio(laHorda.pierdeElTerritorio())
 	}
 	method leGanaA(otroPersonaje){
 		return self.poder()>=otroPersonaje.poder()
 	}
 	method robarleA(otroPersonaje){
 		otroPersonaje.esRobadoPor(self)
+		estado = tranquilo
 	}
 	method esRobadoPor(otroPersonaje){
 		otroPersonaje.ganaOro(self.oro())
+		estado = enfurecido
 		self.oro(0)
 	}
 	method ganarOro(cantidad){
 		self.oro(self.oro()+cantidad)
 	}
 
-
-	method pagaImpuestos(){
-		laAlianza.ganaOro(self.pagaTarifa())
+	method pagaImpuestos(unaFaccion){
+		unaFaccion.ganaOro(oro/2)
+		oro = oro/2
 	}
-	method pagaTarifa(){
-		var cantidad= self.oro()/100*30
-		oro-=cantidad
-		return cantidad
-	}
-
 }

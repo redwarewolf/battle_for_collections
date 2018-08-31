@@ -1,5 +1,5 @@
 import equipos.*
-
+import soldadosAlianza.*
 
 object thrall{
 
@@ -19,11 +19,9 @@ object thrall{
 		}
 	}
 	method pelearPorRegion(){
-		var enemigo= laAlianza.soldadoRandom()
-		if(self.leGanaA(enemigo)){
+		if(self.leGanaA(laAlianza.soldadoRandom())){
 			self.conquistarRegion()
 		}
-		
 	}
 	method conquistarRegion(){
 		laHorda.ganaTerritorio(laAlianza.pierdeElTerritorio())
@@ -63,11 +61,9 @@ object sylvannasWindRunner{
 		}
 	}
 	method pelearPorRegion(){
-		var enemigo= laAlianza.soldadoRandom()
-		if(self.leGanaA(enemigo)){
+		if(self.leGanaA(laAlianza.soldadoRandom())){
 			self.conquistarRegion()
 		}
-		
 	}
 	method conquistarRegion(){
 		laHorda.ganaTerritorio(laAlianza.pierdeElTerritorio())
@@ -110,11 +106,9 @@ object soldadoBruto{
 		}
 	}
 	method pelearPorRegion(){
-		var enemigo= laAlianza.soldadoRandom()
-		if(self.leGanaA(enemigo)){
+		if(self.leGanaA(laAlianza.soldadoRandom())){
 			self.conquistarRegion()
 		}
-		
 	}
 	method conquistarRegion(){
 		laHorda.ganaTerritorio(laAlianza.pierdeElTerritorio())
@@ -124,9 +118,11 @@ object soldadoBruto{
 	}
 	method robarleA(otroPersonaje){
 		otroPersonaje.esRobadoPor(self)
+		estado = tranquilo
 	}
 	method esRobadoPor(otroPersonaje){
 		otroPersonaje.ganaOro(self.oro())
+		estado = enfurecido
 		self.oro(0)
 	}
 	method ganarOro(cantidad){
@@ -138,10 +134,8 @@ object soldadoBruto{
 
 object tranquilo {
 	method poder() {return 200}
-	method otroEstado() {return enfurecido}
 }
 
 object enfurecido {
 	method poder() {return 300}
-	method otroEstado() {return tranquilo}
 }

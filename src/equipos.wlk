@@ -3,6 +3,8 @@ import soldadosAlianza.*
 
 object laHorda {
 	
+	var comida = 6
+	
 	var regiones = #{"Durotar","Mulgore","Tirisfal Glades"}
 	var ejercito = #{sylvannasWindRunner, thrall,soldadoBruto}
 	
@@ -11,7 +13,7 @@ object laHorda {
 			ejercito.add(soldado)
 		}
 	}
-	method comida() {return 6}
+	method comida() {return comida}
 	method ganaTerritorio(unTerritorio){
 		regiones.add(unTerritorio)
 	}
@@ -20,7 +22,7 @@ object laHorda {
 	}
 	
 	method pierdeElTerritorio(){
-		var unTerritorio= regiones.anyOne()
+		var unTerritorio = regiones.anyOne()
 		regiones.remove(unTerritorio)
 		return unTerritorio
 		
@@ -28,31 +30,36 @@ object laHorda {
 	method oro() {
 		return ejercito.sum{soldado => soldado.oro()}
 	}
-	method entregaRegiones(unaAlianza){
-		unaAlianza.recibe(regiones)
+	method entregaRegiones(unaFaccion){
+		unaFaccion.recibe(regiones)
 		self.vaciarRegiones()
 	}
 	method vaciarRegiones(){
 		regiones = #{}
 	}
-	method luchaContra(unaAlianza){
-		if(self.leGanaA(unaAlianza)){
-			unaAlianza.entregaRegiones(self)
+	method luchaContra(unaFaccion){
+		if(self.leGanaA(unaFaccion)){
+			unaFaccion.entregaRegiones(self)
 		}
 		else{
-			self.entregaRegiones(unaAlianza)
+			self.entregaRegiones(unaFaccion)
 		}	
 	}
-	method leGanaA(unaAlianza){
-		return self.puntosTotales() >= unaAlianza.puntosTotales()
+	method leGanaA(unaFaccion){
+		return self.puntosTotales() >= unaFaccion.puntosTotales()
 	}
-	method puntosTotales() {return self.oro() + ejercito.sum{soldado => soldado.poder()}	
+	
+	method poderEjercito(){
+		return ejercito.sum{soldado => soldado.poder()}
 	}
+	
+	method puntosTotales() {return self.oro() + self.poderEjercito()}
 }
 
 object laAlianza {
 
 	var oro=50000
+	var comida = 8
 	var regiones = #{"ElwynForest","Teldrassil","Dun Morogh"}
 	var ejercito = #{anduin, jainaProudmoore,soldadoRazo}
 	
@@ -62,7 +69,7 @@ object laAlianza {
 		}
 	}	
 
-	method comida() {return 8}
+	method comida() {return comida}
 	method soldadoRandom() {
 		return ejercito.random()
 	}
@@ -82,27 +89,30 @@ object laAlianza {
 	method oro() {return oro}
 
 	method cobrarImpuestos(){
-		ejercito.forEach{soldado => soldado.pagaImpuestos()}
+		ejercito.forEach{soldado => soldado.pagaImpuestos(self)}
 	}
-	method entregaRegiones(unaHorda){
-		unaHorda.recibe(regiones)
+	method entregaRegiones(unaFaccion){
+		unaFaccion.recibe(regiones)
 		self.vaciarRegiones()
 	}
 	method vaciarRegiones(){
 		regiones = #{}
 	}
-	method luchaContra(unaHorda){
-		if(self.leGanaA(unaHorda)){
-			unaHorda.entregaRegiones(self)
+	method luchaContra(unaFaccion){
+		if(self.leGanaA(unaFaccion)){
+			unaFaccion.entregaRegiones(self)
 		}
 		else{
-			self.entregaRegiones(unaHorda)
+			self.entregaRegiones(unaFaccion)
 		}	
 	}
-	method leGanaA(unaHorda){
-		return self.puntosTotales() >= unaHorda.puntosTotales()
+	method leGanaA(unaFaccion){
+		return self.puntosTotales() >= unaFaccion.puntosTotales()
 	}
-	method puntosTotales() {return self.oro() + ejercito.sum{soldado => soldado.poder()}	
+
+	method poderEjercito(){
+		return ejercito.sum{soldado => soldado.poder()}
 	}
 	
+	method puntosTotales() {return self.oro() + self.poderEjercito()}	
 }
