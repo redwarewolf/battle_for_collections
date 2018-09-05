@@ -8,8 +8,7 @@ object anduin{
 	method poder() {return poder}
 	
 	method oro(){return oro}
-	method oro(cantidad){oro=cantidad
-	}
+	method oro(cantidad){oro=cantidad}
 
 	method pelearCon(otroPersonaje){
 		if(self.leGanaA(otroPersonaje)){
@@ -41,8 +40,8 @@ object anduin{
 		self.oro(self.oro()+cantidad)
 	}
 	method pagaImpuestos(unaFaccion){
-		unaFaccion.ganaOro(oro/2)
-		oro = oro/2
+		unaFaccion.ganaOro(self.oro()/2)
+		self.oro(self.oro()/2)
 	}
 }
 
@@ -86,10 +85,9 @@ object jainaProudmoore{
 		self.oro(self.oro()+cantidad)
 	}
 
-
 	method pagaImpuestos(unaFaccion){
 		unaFaccion.ganaOro(oro/2)
-		oro = oro/2
+		self.oro(self.oro()/2)
 	}
 }
 
@@ -138,6 +136,6 @@ object soldadoRazo{
 
 	method pagaImpuestos(unaFaccion){
 		unaFaccion.ganaOro(oro/2)
-		oro = oro/2
+		self.oro(self.oro()/2)
 	}
 }
