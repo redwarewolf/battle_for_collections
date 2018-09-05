@@ -9,14 +9,21 @@ object laHorda {
 	var ejercito = #{sylvannasWindRunner, thrall,soldadoBruto}
 	
 	method reclutar(soldado){
-		if(ejercito.lenght()<self.comida()){
+		if(self.puedeReclutarSoldado()){
 			ejercito.add(soldado)
 		}
 	}
+	
+	method puedeReclutarSoldado(){
+		return ejercito.lenght() < self.comida()
+	}
+	
 	method comida() {return comida}
+	
 	method ganaTerritorio(unTerritorio){
 		regiones.add(unTerritorio)
 	}
+	
 	method soldadoRandom() {
 		return ejercito.random()
 	}
@@ -25,18 +32,21 @@ object laHorda {
 		var unTerritorio = regiones.anyOne()
 		regiones.remove(unTerritorio)
 		return unTerritorio
-		
 	}
+	
 	method oro() {
 		return ejercito.sum{soldado => soldado.oro()}
 	}
+	
 	method entregaRegiones(unaFaccion){
 		unaFaccion.recibe(regiones)
 		self.vaciarRegiones()
 	}
+	
 	method vaciarRegiones(){
 		regiones = #{}
 	}
+	
 	method luchaContra(unaFaccion){
 		if(self.leGanaA(unaFaccion)){
 			unaFaccion.entregaRegiones(self)
@@ -45,6 +55,7 @@ object laHorda {
 			self.entregaRegiones(unaFaccion)
 		}	
 	}
+	
 	method leGanaA(unaFaccion){
 		return self.puntosTotales() >= unaFaccion.puntosTotales()
 	}
@@ -64,10 +75,14 @@ object laAlianza {
 	var ejercito = #{anduin, jainaProudmoore,soldadoRazo}
 	
 	method reclutar(soldado){
-		if(ejercito.lenght()<self.comida()){
+		if(self.puedeReclutarSoldado()){
 			ejercito.add(soldado)
 		}
-	}	
+	}
+	
+	method puedeReclutarSoldado(){
+		return ejercito.lenght() < self.comida()
+	}
 
 	method comida() {return comida}
 	method soldadoRandom() {
